@@ -5,43 +5,51 @@ import {map} from 'lodash';
 
 import Todo from './Todo';
 
+import {addTodo, updateTodo} from '../actions/todo-actions';
+
 class TodoApp extends Component {
   constructor() {
     super();
 
     this.state = {
       newTodo: '',
-      todos: [],
     };
     this.handleTextChange = this.handleTextChange.bind(this);
-    this.addTodo = this.addTodo.bind(this);
+    this.submitTodo = this.submitTodo.bind(this);
+    this.updateTodoStatus = this.updateTodoStatus.bind(this);
   }
   handleTextChange(text) {
     this.setState({newTodo: text});
   }
-  addTodo() {
+  submitTodo() {
     const {newTodo} = this.state;
+    const {dispatch} = this.props;
+    let todo = {};
     if (newTodo) {
-      this.setState({
-        newTodo: '',
-        todos: [...this.state.todos, newTodo],
-      });
+      this.setState({newTodo: ''});
+      todo = {
+        name: newTodo,
+        completed: false,
+      };
+      dispatch(addTodo(todo));
     }
     return;
   }
+  updateTodoStatus(id) {
+    const {dispatch} = this.props;
+    dispatch(updateTodo(id));
+  }
   renderTodos() {
-    const {todos} = this.state;
-    const todoList = map(todos, (todo, idx) => <Todo key={idx} todo={todo} />);
+    const {todos} = this.props;
+    const todoList = map(todos, (todo, idx) => <Todo updateStatus={this.updateTodoStatus} key={idx} todo={todo} />);
     return todoList;
   }
   render() {
     const {newTodo} = this.state;
-    const {todos} = this.props;
-    console.log('TODOS: ', todos);
     return (
       <View style={styles.container}>
         <TextInput style={styles.textInput} value={newTodo} onChangeText={this.handleTextChange} />
-        <TouchableOpacity style={styles.createContainer} onPress={this.addTodo}>
+        <TouchableOpacity style={styles.createContainer} onPress={this.submitTodo}>
           <Text style={styles.createBtn}>Create</Text>
         </TouchableOpacity>
         {this.renderTodos()}
@@ -53,7 +61,6 @@ class TodoApp extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
     marginTop: 40,
   },
   createContainer: {

@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import FontAwesome, {Icons} from 'react-native-fontawesome';
 
 class Todo extends Component {
   render() {
-    const {todo} = this.props;
+    const {todo, updateStatus} = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.todoText}>{todo}</Text>
+        <TouchableOpacity onPress={() => updateStatus(todo.id)}>
+          <FontAwesome>{todo.completed ? Icons.check : Icons.times}</FontAwesome>
+        </TouchableOpacity>
+        <Text style={todo.completed ? styles.todoTextCompleted : styles.todoText}>{todo.name}</Text>
       </View>
     );
   }
@@ -14,12 +18,18 @@ class Todo extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
     borderBottomColor: '#d3d3d3',
-    padding: 10,
+    borderBottomWidth: 1,
+    padding: 20,
   },
   todoText: {
-    color: '#d3d3d3',
+    color: '#808080',
+    fontSize: 16,
+  },
+  todoTextCompleted: {
+    color: '#808080',
+    fontSize: 16,
+    textDecorationLine: 'line-through',
   },
 });
 
