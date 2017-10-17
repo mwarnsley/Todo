@@ -8,7 +8,9 @@ class Todo extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={() => updateStatus(todo.id)}>
-          <FontAwesome>{todo.completed ? Icons.check : Icons.times}</FontAwesome>
+          <FontAwesome style={todo.completed ? styles.iconBtnCompleted : styles.iconBtnNotCompleted}>
+            {todo.completed ? Icons.check : Icons.times}
+          </FontAwesome>
         </TouchableOpacity>
         <Text style={todo.completed ? styles.todoTextCompleted : styles.todoText}>{todo.name}</Text>
       </View>
@@ -20,16 +22,27 @@ const styles = StyleSheet.create({
   container: {
     borderBottomColor: '#d3d3d3',
     borderBottomWidth: 1,
+    flexDirection: 'row',
     padding: 20,
   },
   todoText: {
     color: '#808080',
-    fontSize: 16,
+    fontSize: 20,
   },
   todoTextCompleted: {
     color: '#808080',
-    fontSize: 16,
+    fontSize: 20,
     textDecorationLine: 'line-through',
+  },
+  iconBtnCompleted: {
+    color: 'green',
+    fontSize: 24,
+    marginRight: 20,
+  },
+  iconBtnNotCompleted: {
+    color: 'red',
+    fontSize: 24,
+    marginRight: 20,
   },
 });
 

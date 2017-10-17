@@ -66,16 +66,12 @@ const styles = StyleSheet.create({
   createContainer: {
     height: 35,
     alignSelf: 'stretch',
-    backgroundColor: 'blue',
-    borderColor: 'blue',
-    borderWidth: 1,
-    marginTop: 10,
-    marginBottom: 10,
+    backgroundColor: '#f1bf57',
   },
   createBtn: {
     fontSize: 20,
     textAlign: 'center',
-    color: 'white',
+    color: '#ffffff',
   },
   textInput: {
     height: 50,
