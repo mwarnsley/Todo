@@ -5,7 +5,6 @@ import {map, filter} from 'lodash';
 
 import Todo from './Todo';
 import FilterBar from './FilterBar';
-import Header from './Header/Header';
 
 import {addTodo, updateTodo} from '../actions/todo-actions';
 
@@ -32,6 +31,7 @@ class TodoApp extends Component {
       todo = {
         name: newTodo,
         completed: false,
+        completionDate: '',
       };
       dispatch(addTodo(todo));
     }
@@ -70,7 +70,6 @@ class TodoApp extends Component {
     console.log('Props: ', this.props);
     return (
       <View style={styles.container}>
-        <Header />
         <FilterBar dispatch={dispatch} />
         <TextInput style={styles.textInput} value={newTodo} onChangeText={this.handleTextChange} />
         <TouchableOpacity style={styles.createContainer} onPress={this.submitTodo}>

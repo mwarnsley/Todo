@@ -1,5 +1,7 @@
 import {map, filter} from 'lodash';
 
+import {getCurrentDate} from '../helper';
+
 const todoList = {
   todos: [],
   display: 'All',
@@ -25,9 +27,17 @@ export function todoReducer(state = todoList, action) {
       const updatedTodoId = action.payload;
       const todos = map(stateTodos, todo => {
         if (updatedTodoId === todo.id) {
+          if (todo.completed) {
+            return {
+              ...todo,
+              completed: false,
+              completionDate: '',
+            };
+          }
           return {
             ...todo,
-            completed: !todo.completed,
+            completed: true,
+            completionDate: getCurrentDate(),
           };
         }
         return todo;

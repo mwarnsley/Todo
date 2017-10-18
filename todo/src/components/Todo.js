@@ -13,6 +13,7 @@ class Todo extends Component {
           </FontAwesome>
         </TouchableOpacity>
         <Text style={todo.completed ? styles.todoTextCompleted : styles.todoText}>{todo.name}</Text>
+        {todo.completed ? <Text style={styles.dateCompleted}>Date Completed: {todo.completionDate}</Text> : null}
       </View>
     );
   }
@@ -43,6 +44,12 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 24,
     marginRight: 20,
+  },
+  dateCompleted: {
+    color: '#d3d3d3',
+    fontSize: 12,
+    marginLeft: 'auto',
+    paddingTop: 5,
   },
 });
 
