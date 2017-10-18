@@ -13,3 +13,11 @@ export function updateTodo(id) {
     payload: id,
   };
 }
+
+// Function to show all of the todos
+export function filterTodoList(display) {
+  return {
+    type: 'FILTER_TODO_LIST',
+    payload: display,
+  };
+}

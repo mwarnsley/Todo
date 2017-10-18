@@ -1,9 +1,13 @@
-import initialState from './initial-state';
-import {map} from 'lodash';
+import {map, filter} from 'lodash';
+
+const todoList = {
+  todos: [],
+  display: 'All',
+};
 
 const todoId = 1;
 
-export function todoReducer(state = initialState, action) {
+export function todoReducer(state = todoList, action) {
   switch (action.type) {
     case 'ADD_TODO':
       const todo = action.payload;
@@ -31,6 +35,13 @@ export function todoReducer(state = initialState, action) {
       return {
         ...state,
         todos,
+      };
+      break;
+    case 'FILTER_TODO_LIST':
+      const display = action.payload;
+      return {
+        ...state,
+        display,
       };
       break;
     default:

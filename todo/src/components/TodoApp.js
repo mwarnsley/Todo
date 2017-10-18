@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, StyleSheet, TextInput, Text, TouchableOpacity} from 'react-native';
-import {map} from 'lodash';
+import {map, filter} from 'lodash';
 
 import Todo from './Todo';
+import FilterBar from './FilterBar';
+import Header from './Header/Header';
 
 import {addTodo, updateTodo} from '../actions/todo-actions';
 
@@ -40,14 +42,36 @@ class TodoApp extends Component {
     dispatch(updateTodo(id));
   }
   renderTodos() {
-    const {todos} = this.props;
-    const todoList = map(todos, (todo, idx) => <Todo updateStatus={this.updateTodoStatus} key={idx} todo={todo} />);
+    const {todos, display} = this.props;
+    let todoList = [];
+    switch (display) {
+      case 'All':
+        todoList = map(todos, (todo, idx) => <Todo updateStatus={this.updateTodoStatus} key={idx} todo={todo} />);
+        break;
+      case 'Active':
+        const activeTodos = filter(todos, todo => !todo.completed);
+        todoList = map(activeTodos, (todo, idx) => <Todo updateStatus={this.updateTodoStatus} key={idx} todo={todo} />);
+        break;
+      case 'Completed':
+        const completedTodos = filter(todos, todo => todo.completed);
+        todoList = map(completedTodos, (todo, idx) => (
+          <Todo updateStatus={this.updateTodoStatus} key={idx} todo={todo} />
+        ));
+        break;
+      default:
+        todoList = map(todos, (todo, idx) => <Todo updateStatus={this.updateTodoStatus} key={idx} todo={todo} />);
+        break;
+    }
     return todoList;
   }
   render() {
     const {newTodo} = this.state;
+    const {dispatch} = this.props;
+    console.log('Props: ', this.props);
     return (
       <View style={styles.container}>
+        <Header />
+        <FilterBar dispatch={dispatch} />
         <TextInput style={styles.textInput} value={newTodo} onChangeText={this.handleTextChange} />
         <TouchableOpacity style={styles.createContainer} onPress={this.submitTodo}>
           <Text style={styles.createBtn}>Create</Text>
@@ -84,4 +108,5 @@ const styles = StyleSheet.create({
 
 export default connect(state => ({
   todos: state.todos.todos,
+  display: state.todos.display,
 }))(TodoApp);
